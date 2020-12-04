@@ -1,0 +1,20 @@
+{
+"apikey": "",
+"vpc_url": "",
+"vpc_id": "",
+"routing_table_name": "",
+"routing_table_route_name": "",
+"destination_ipv4_cidr_block": "",
+"zone": "",
+"ha_pair":
+[
+	{
+		"mgmt_ip": "mip_1",
+		"ext_ip": "eip_1"
+	},
+	{
+		"mgmt_ip": "mip_2",
+		"ext_ip": "eip_2"
+	}
+]
+}
