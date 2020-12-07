@@ -148,7 +148,7 @@ class HAFailOver(object):
 
     def create_routing_table_route_id(self):
         zone_identity_model = {'name': self.zone}
-        route_next_hop_prototype_model = {'address': self.next_hop_vsi}
+        route_next_hop_prototype_model = {'address': self.update_next_hop_vsi}
         create_vpc_routing_table_route_response = self.service.create_vpc_routing_table_route(vpc_id=self.vpc_id, routing_table_id=self.table_id, destination=self.destination_ipv4_cidr_block, zone=zone_identity_model, action='deliver', next_hop=route_next_hop_prototype_model, name=self.route_name)
         route = create_vpc_routing_table_route_response.get_result()
         self.route_id = route['id']     
