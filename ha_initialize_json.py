@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 """
 #*===================================================================
 #*
@@ -36,6 +34,9 @@ class InitializeJson(object):
     CONFIGFILE = "config.json"
     HA_TABLE_NAME = "ha-routing-table"
     HA_TABLE_NAME_ROUTE = "ha-routing-table-route"
+    LOCATION_DEFAULT = "/root/vnf-ha-cloud-failover-func/"
+    VPC_URL_ENDPOINT = "https://us-south.iaas.cloud.ibm.com"
+    
 
     def __init__(self, logger, **kwargs):
         """
@@ -48,9 +49,9 @@ class InitializeJson(object):
         self.apikey = kwargs.get('apikey', None)
         self.vpcid = kwargs.get('vpcid', None)
         self.vpcurl = kwargs.get(
-            'vpcurl', 'https://us-south.iaas.cloud.ibm.com')
-        self.tablename = kwargs.get('tablename', 'ha-routing-table')
-        self.routename = kwargs.get('routename', 'ha-routing-table-route')
+            'vpcurl', self.VPC_URL_ENDPOINT)
+        self.tablename = kwargs.get('tablename', self.HA_TABLE_NAME)
+        self.routename = kwargs.get('routename', self.HA_TABLE_NAME_ROUTE)
         self.cidr = kwargs.get('cidr', None)
         self.zone = kwargs.get('zone', "us-south-1")
         self.mgmtip1 = kwargs.get('mgmtip1', None)
@@ -67,7 +68,7 @@ class InitializeJson(object):
         """
         # check if the code is called with apikey, vpcid, url, etc
         if self.vpcurl is None:
-            self.vpcurl = 'https://us-south.iaas.cloud.ibm.com'
+            self.vpcurl = self.VPC_URL_ENDPOINT
         if self.tablename is None:
             self.tablename = self.HA_TABLE_NAME
         if self.routename is None:
@@ -90,8 +91,9 @@ class InitializeJson(object):
         """
         # check if the code is called with apikey, vpcid, url, etc
         self.validate_params()
-        try:        
-            with open(self.CONFIGFILE) as config_json:
+        try:    
+            path = self.LOCATION_DEFAULT + self.CONFIGFILE
+            with open(path) as config_json:
                 config = json.load(config_json)
             for item in config:
                 if item == self.APIKEY:
@@ -114,10 +116,11 @@ class InitializeJson(object):
                     config[self.HA_PAIR][1][self.MGMT_IP] = self.mgmtip2
                     config[self.HA_PAIR][1][self.EXT_IP] = self.extip2
             json_data = json.dumps(config, indent=4)
-            with open(self.CONFIGFILE, "w") as config_json:
+            with open(path, "w") as config_json:
                 config_json.write(json_data)
-        except:
-            self.logger.info("Exception occurred while updating config.json")
+            self.logger.info("config.json is updated with user values.")
+        except Exception as e:
+            self.logger.info("Exception occurred while updating config.json ", e)
 
 @click.command()
 @click.option('--apikey',
@@ -157,16 +160,15 @@ def main(**kwargs):
     :param kwargs:
     :return: void
     """
-    logfile = 'initialize_json.log'
+    logfile = self.LOCATION_DEFAULT + 'initialize_json.log'
     logging.basicConfig(
-        filename='initialize_json.log',
+        filename=logfile,
         format='%(asctime)s:%(levelname)s:%(message)s',
         datefmt='%m/%d/%Y %I:%M:%S %p',
         level=logging.INFO)
     loghandler = logging.handlers.TimedRotatingFileHandler(logfile,when="midnight")
     logger = logging.getLogger(__name__)
-    logger.addHandler(loghandler)
-    
+    logger.addHandler(loghandler)  
     initialize = InitializeJson(logger, **kwargs)
     initialize.update_json_file()
     
