@@ -123,8 +123,7 @@ class HAFailOver(object):
                     self.logger.info("ext_ip_1 " + self.ext_ip_1)
                     self.logger.info("ext_ip_2 " + self.ext_ip_2)
         except Exception as e:
-            self.logger.info("Exception occurred while parsing config.json")
-            print str(e)
+            self.logger.info("Exception occurred while parsing config.json", e)
         # Closing file 
         file.close()    
             
