@@ -207,6 +207,7 @@ def update_custom_route():
         haFailOver = HAFailOver()
         print("request received from " + request.remote_addr)
         remote_addr = request.remote_addr
+        remote_addr = "10.240.1.167"
         haFailOver.find_ext_ip_ha_pair(remote_addr)    
         # find all routes of HA1
         made_update = haFailOver.update_vpc_routing_table_route()
