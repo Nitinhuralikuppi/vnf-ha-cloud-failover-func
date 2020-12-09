@@ -160,7 +160,7 @@ def main(**kwargs):
     :param kwargs:
     :return: void
     """
-    logfile = self.LOCATION_DEFAULT + 'initialize_json.log'
+    logfile = '/root/vnf-ha-cloud-failover-func/initialize_json.log'
     logging.basicConfig(
         filename=logfile,
         format='%(asctime)s:%(levelname)s:%(message)s',
