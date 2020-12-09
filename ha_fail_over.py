@@ -217,7 +217,8 @@ def update_custom_route():
         else:
             print('updated routing table route')
     except Exception as e:
-        print("Update custom route failed with status code " + e.message)
+        print("Update custom route failed with status code.")
+        print str(e)
     return "Updated Custom Route"    
 
 
