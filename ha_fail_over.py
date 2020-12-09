@@ -1,5 +1,3 @@
-#!/usr/bin/python
-
 """
 #*===================================================================
 #*
@@ -37,6 +35,7 @@ class HAFailOver(object):
     HA_PAIR = "ha_pair"
     MGMT_IP = "mgmt_ip"
     EXT_IP = "ext_ip"
+    LOCATION_DEFAULT = "/root/vnf-ha-cloud-failover-func/"
     CONFIGFILE = "config.json"
 
     apikey = None
@@ -66,7 +65,7 @@ class HAFailOver(object):
     
     def __init__(self):
         print("--------constructor---------")
-        logfile = 'fail_over.log'
+        logfile = '/root/vnf-ha-cloud-failover-func/fail_over.log'
         logging.basicConfig(filename=logfile, format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
         loghandler = logging.handlers.TimedRotatingFileHandler(logfile,when="midnight")
         self.logger = logging.getLogger(__name__)
@@ -83,7 +82,8 @@ class HAFailOver(object):
          
     def parse_config_json(self):
         # Opening JSON file 
-        file = open(self.CONFIGFILE, "r")
+        path = self.LOCATION_DEFAULT + self.CONFIGFILE
+        file = open(path, "r")
         self.logger.info("Parsing config file")
         # returns JSON object as  
         # a dictionary 
