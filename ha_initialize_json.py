@@ -34,7 +34,7 @@ class InitializeJson(object):
     CONFIGFILE = "config.json"
     HA_TABLE_NAME = "ha-routing-table"
     HA_TABLE_NAME_ROUTE = "ha-routing-table-route"
-    # LOCATION_DEFAULT = "/root/vnf-ha-cloud-failover-func/"
+    LOCATION_DEFAULT = "/root/vnf-ha-cloud-failover-func/"
     VPC_URL_ENDPOINT = "https://us-south.iaas.cloud.ibm.com"
     
 
@@ -92,7 +92,7 @@ class InitializeJson(object):
         # check if the code is called with apikey, vpcid, url, etc
         self.validate_params()
         try:    
-            path = self.CONFIGFILE
+            path = self.LOCATION_DEFAULT + self.CONFIGFILE
             with open(path) as config_json:
                 config = json.load(config_json)
             for item in config:
@@ -160,7 +160,7 @@ def main(**kwargs):
     :param kwargs:
     :return: void
     """
-    logfile = 'initialize_json.log'
+    logfile = '/root/vnf-ha-cloud-failover-func/initialize_json.log'
     logging.basicConfig(
         filename=logfile,
         format='%(asctime)s:%(levelname)s:%(message)s',
