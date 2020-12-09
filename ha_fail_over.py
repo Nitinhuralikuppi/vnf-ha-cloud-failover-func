@@ -65,7 +65,7 @@ class HAFailOver(object):
     
     def __init__(self):
         print("--------constructor---------")
-        logfile = '/root/vnf-ha-cloud-failover-func/fail_over.log'
+        logfile = 'fail_over.log'
         logging.basicConfig(filename=logfile, format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
         loghandler = logging.handlers.TimedRotatingFileHandler(logfile,when="midnight")
         self.logger = logging.getLogger(__name__)
@@ -82,7 +82,7 @@ class HAFailOver(object):
          
     def parse_config_json(self):
         # Opening JSON file 
-        path = self.LOCATION_DEFAULT + self.CONFIGFILE
+        path = self.CONFIGFILE
         file = open(path, "r")
         self.logger.info("Parsing config file")
         # returns JSON object as  
