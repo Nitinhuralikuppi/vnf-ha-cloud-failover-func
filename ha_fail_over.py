@@ -65,7 +65,7 @@ class HAFailOver(object):
     
     def __init__(self):
         print("--------constructor---------")
-        logfile = 'fail_over.log'
+        logfile = '/root/vnf-ha-cloud-failover-func/fail_over.log'
         logging.basicConfig(filename=logfile, format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
         loghandler = logging.handlers.TimedRotatingFileHandler(logfile,when="midnight")
         self.logger = logging.getLogger(__name__)
@@ -82,7 +82,7 @@ class HAFailOver(object):
          
     def parse_config_json(self):
         # Opening JSON file 
-        path = self.CONFIGFILE
+        path = self.LOCATION_DEFAULT + self.CONFIGFILE
         file = open(path, "r")
         self.logger.info("Parsing config file")
         # returns JSON object as  
@@ -122,8 +122,9 @@ class HAFailOver(object):
                     self.logger.info("mgmt_ip_2 " + self.mgmt_ip_2)
                     self.logger.info("ext_ip_1 " + self.ext_ip_1)
                     self.logger.info("ext_ip_2 " + self.ext_ip_2)
-        except:
-            self.logger.info("Exception occurred while parsing config.json")            
+        except Exception as e:
+            self.logger.info("Exception occurred while parsing config.json")
+            print str(e)
         # Closing file 
         file.close()    
             
@@ -145,7 +146,8 @@ class HAFailOver(object):
                 self.table_id = routing_table['id']
                 self.logger.info("Created routing table " + self.table_id + "\t" + routing_table['name'])
         except Exception as e:
-            print("Creating routing table failed: " + str(e.code) + ": " + e.message)
+            print("Creating routing table failed: ")
+            print str(e)
             
 
     def create_routing_table_route_id(self):
