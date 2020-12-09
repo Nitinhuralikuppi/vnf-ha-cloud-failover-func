@@ -145,8 +145,7 @@ class HAFailOver(object):
                 self.table_id = routing_table['id']
                 self.logger.info("Created routing table " + self.table_id + "\t" + routing_table['name'])
         except Exception as e:
-            print("Creating routing table failed: ")
-            print str(e)
+            self.logger.info("Creating routing table failed. ", e)
             
 
     def create_routing_table_route_id(self):
