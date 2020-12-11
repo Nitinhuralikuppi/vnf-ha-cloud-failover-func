@@ -24,9 +24,6 @@ class InitializeJson(object):
     APIKEY = "apikey"
     VPC_ID = "vpc_id"
     VPC_URL = "vpc_url"
-    ROUTING_TABLE = "routing_table_name"
-    ROUTING_TABLE_ROUTE_NAME = "routing_table_route_name"
-    DESTINATION_IPV4_CIDR_BLOCK = "destination_ipv4_cidr_block"
     ZONE = "zone"
     HA_PAIR = "ha_pair"
     MGMT_IP = "mgmt_ip"
@@ -50,9 +47,6 @@ class InitializeJson(object):
         self.vpcid = kwargs.get('vpcid', None)
         self.vpcurl = kwargs.get(
             'vpcurl', self.VPC_URL_ENDPOINT)
-        self.tablename = kwargs.get('tablename', self.HA_TABLE_NAME)
-        self.routename = kwargs.get('routename', self.HA_TABLE_NAME_ROUTE)
-        self.cidr = kwargs.get('cidr', None)
         self.zone = kwargs.get('zone', "us-south-1")
         self.mgmtip1 = kwargs.get('mgmtip1', None)
         self.extip1 = kwargs.get('extip1', None)
@@ -69,13 +63,9 @@ class InitializeJson(object):
         # check if the code is called with apikey, vpcid, url, etc
         if self.vpcurl is None:
             self.vpcurl = self.VPC_URL_ENDPOINT
-        if self.tablename is None:
-            self.tablename = self.HA_TABLE_NAME
-        if self.routename is None:
-            self.routename = self.HA_TABLE_NAME_ROUTE
-        if self.apikey is None or self.vpcid is None or self.cidr is None or \
+        if self.apikey is None or self.vpcid is None or \
             self.mgmtip1 is None or self.extip1 is None or self.mgmtip2 is None or self.extip2 is None:
-            excmsg = 'VPC id, apikey, destination cidr, mgmt ip1, external ip1, mgmt ip2, external ip2 of HA Pair is none. '
+            excmsg = 'VPC id, apikey, mgmt ip1, external ip1, mgmt ip2, external ip2 of HA Pair is none. '
             excmsg = excmsg + 'Either apikey/vpcid/mgmt_ip1/ext_ip1/mgmt_ip2/ext_ip2 is empty. Pass the apikey, vpcid, ' \
                 'mgmt_ip1, ext_ip1, mgmt_ip2, ext_ip2 as command line arguments or specify config file with all these argument values. '
             excmsg = excmsg + ' Run the command: "python3 ha_initialize_json.py --help" for more details.'    
@@ -102,12 +92,6 @@ class InitializeJson(object):
                     config[self.VPC_ID] = self.vpcid
                 if item == self.VPC_URL:
                     config[self.VPC_URL] = self.vpcurl
-                if item == self.ROUTING_TABLE:
-                    config[self.ROUTING_TABLE] = self.tablename
-                if item == self.ROUTING_TABLE_ROUTE_NAME:
-                    config[self.ROUTING_TABLE_ROUTE_NAME] = self.routename
-                if item == self.DESTINATION_IPV4_CIDR_BLOCK:
-                    config[self.DESTINATION_IPV4_CIDR_BLOCK] = self.cidr
                 if item == self.ZONE:
                     config[self.ZONE] = self.zone
                 if item == self.HA_PAIR:
@@ -130,12 +114,6 @@ class InitializeJson(object):
 @click.option('--vpcid', '-v', help='The vpcid of HA Pair', type=click.STRING)
 @click.option('--vpcurl', '-u',
               help="The vpc service url region", type=click.STRING)
-@click.option('--tablename', '-t',
-              help='The vpc routing table name', type=click.STRING)
-@click.option('--routename', '-r',
-              help='The vpc routing table route name', type=click.STRING)
-@click.option('--cidr', '-c',
-              help='The destination ipv4 cidr block', type=click.STRING)
 @click.option("--zone", "-z", help="The vpc zone", type=click.STRING)
 @click.option("--mgmtip1",
               "-mip1",
