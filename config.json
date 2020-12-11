@@ -3,9 +3,6 @@
 "apikey": "",
 "vpc_url": "",
 "vpc_id": "",
-"routing_table_name": "",
-"routing_table_route_name": "",
-"destination_ipv4_cidr_block": "",
 "zone": "",
 "ha_pair":
 [
