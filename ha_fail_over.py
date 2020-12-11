@@ -28,9 +28,6 @@ class HAFailOver(object):
     APIKEY = "apikey"
     VPC_ID = "vpc_id"
     VPC_URL = "vpc_url"
-    ROUTING_TABLE = "routing_table_name"
-    ROUTING_TABLE_ROUTE_NAME = "routing_table_route_name"
-    DESTINATION_IPV4_CIDR_BLOCK = "destination_ipv4_cidr_block"
     ZONE = "zone"
     HA_PAIR = "ha_pair"
     MGMT_IP = "mgmt_ip"
@@ -42,11 +39,8 @@ class HAFailOver(object):
     vpc_url = "https://us-south.iaas.cloud.ibm.com"
     vpc_id =''
     table_id = ''
-    table_name = ''
-    route_name = ''
     route_id = ''
     zone = ''
-    destination_ipv4_cidr_block = ''
     ha_pair = {}
     temp_ha_pair = {}
     next_hop_vsi = ""
@@ -72,8 +66,6 @@ class HAFailOver(object):
         self.logger.addHandler(loghandler)
         if self.apikey is None:
             self.parse_config_json()
-        self.logger.info("api key " + self.apikey)
-        self.logger.info("vpc url " + self.vpc_url)    
         authenticator = IAMAuthenticator(self.apikey)
         self.service = VpcV1(authenticator=authenticator)
         self.service.set_service_url(self.vpc_url)
@@ -99,15 +91,6 @@ class HAFailOver(object):
                 if item == self.VPC_URL:
                     self.vpc_url = config[self.VPC_URL]
                     self.logger.info("vpc url " + self.vpc_url)
-                if item == self.ROUTING_TABLE:
-                    self.table_name = config[self.ROUTING_TABLE]
-                    self.logger.info("table name " + self.table_name)
-                if item == self.ROUTING_TABLE_ROUTE_NAME:
-                    self.route_name = config[self.ROUTING_TABLE_ROUTE_NAME]
-                    self.logger.info("route name " + self.route_name)
-                if item == self.DESTINATION_IPV4_CIDR_BLOCK:
-                    self.destination_ipv4_cidr_block = config[self.DESTINATION_IPV4_CIDR_BLOCK]
-                    self.logger.info("destination_ipv4_cidr_block " + self.destination_ipv4_cidr_block)
                 if item == self.ZONE:
                     self.zone = config[self.ZONE]
                     self.logger.info("zone " + self.zone)
@@ -127,36 +110,7 @@ class HAFailOver(object):
         # Closing file 
         file.close()    
             
-
-    def create_routing_table_id(self):
-        try:
-            table_found = False
-            list_tables = ''
-            if self.service.list_vpc_routing_tables(self.vpc_id).get_result() is not None:
-                list_tables = self.service.list_vpc_routing_tables(self.vpc_id).get_result()['routing_tables']
-                for table in list_tables:
-                    print(table['id'], "\t",  table['name'])
-                    if table['name'] == self.table_name:
-                        table_found = True
-                        self.table_id = table['id']
-            if not table_found:        
-                create_vpc_routing_table_response = self.service.create_vpc_routing_table(self.vpc_id, name=self.table_name, routes=None)
-                routing_table = create_vpc_routing_table_response.get_result()    
-                self.table_id = routing_table['id']
-                self.logger.info("Created routing table " + self.table_id + "\t" + routing_table['name'])
-        except Exception as e:
-            self.logger.info("Creating routing table failed. ", e)
             
-
-    def create_routing_table_route_id(self):
-        zone_identity_model = {'name': self.zone}
-        route_next_hop_prototype_model = {'address': self.update_next_hop_vsi}
-        create_vpc_routing_table_route_response = self.service.create_vpc_routing_table_route(vpc_id=self.vpc_id, routing_table_id=self.table_id, destination=self.destination_ipv4_cidr_block, zone=zone_identity_model, action='deliver', next_hop=route_next_hop_prototype_model, name=self.route_name)
-        route = create_vpc_routing_table_route_response.get_result()
-        self.route_id = route['id']     
-        self.logger.info('created routing table route ' + self.route_id)
-     
-     
     def update_vpc_routing_table_route(self):   
         self.logger.info("calling update vpc routing table route")    
         self.logger.info("vpc id " + self.vpc_id) 
@@ -209,11 +163,7 @@ def update_custom_route():
     haFailOver.find_ext_ip_ha_pair(remote_addr)    
     # find all routes of HA1
     made_update = haFailOver.update_vpc_routing_table_route()
-    if made_update is False:
-        haFailOver.create_routing_table_id()
-        haFailOver.create_routing_table_route_id()
-    else:
-        print('updated routing table route')
+    print('updated routing table route')
     return "Updated Custom Route"    
 
 
