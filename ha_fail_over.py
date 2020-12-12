@@ -125,7 +125,7 @@ class HAFailOver(object):
             routes = list_routes.get_result()['routes']
             for route in routes:
                 route_id_temp = route['id']
-                if route['next_hop']['address'] == self.next_hop_vsi or route['name'] == self.route_name: 
+                if route['next_hop']['address'] == self.next_hop_vsi: 
                     self.logger.info("vpc routing table routes found, id: %s, name: %s: " % (route['id'], route['name']))
                     self.logger.info("vpc routing table route, id: %s, name: %s, zone: %s, next_hop:%s, destination:%s " % (route['id'], route['name'], route['zone']['name'], route['next_hop']['address'], route['destination']))
                     zone_identity_model = {'name': route['zone']['name']}
