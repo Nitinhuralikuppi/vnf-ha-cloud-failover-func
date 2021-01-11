@@ -30,7 +30,7 @@ class InitializeJson(object):
     CONFIGFILE = "config.json"
     HA_TABLE_NAME = "ha-routing-table"
     HA_TABLE_NAME_ROUTE = "ha-routing-table-route"
-    LOCATION_DEFAULT = "/root/vnf-ha-cloud-failover-func/"
+    LOCATION_DEFAULT = "/tmp/vnf-ha-cloud-failover-func/"
     VPC_URL_ENDPOINT = "https://us-south.iaas.cloud.ibm.com"
     
 
@@ -133,7 +133,7 @@ def main(**kwargs):
     :param kwargs:
     :return: void
     """
-    logfile = '/root/vnf-ha-cloud-failover-func/initialize_json.log'
+    logfile = '/tmp/vnf-ha-cloud-failover-func/initialize_json.log'
     logging.basicConfig(
         filename=logfile,
         format='%(asctime)s:%(levelname)s:%(message)s',
