@@ -18,7 +18,6 @@ import click
 class InitializeJson(object):
     """
     This is a class to initialize the json file for High Availability Custom route update
-
     This can be invoked as a CLI as well as by passing arguments in constructor
     """
     APIKEY = "apikey"
@@ -31,14 +30,13 @@ class InitializeJson(object):
     CONFIGFILE = "config.json"
     HA_TABLE_NAME = "ha-routing-table"
     HA_TABLE_NAME_ROUTE = "ha-routing-table-route"
-    LOCATION_DEFAULT = "/root/vnf-ha-cloud-failover-func/"
+    LOCATION_DEFAULT = "/tmp/vnf-ha-cloud-failover-func/"
     VPC_URL_ENDPOINT = "https://us-south.iaas.cloud.ibm.com"
     
 
     def __init__(self, logger, **kwargs):
         """
         The constructor for this class.
-
         Pass the user input arguments to constructor
         :param logger: Logger where the initializer prints the output logs
         :param kwargs: Command options dictionary
@@ -57,7 +55,6 @@ class InitializeJson(object):
     def validate_params(self):
         """
         The method to process the user input arguments, validate the arguments and fail
-
         :return: void
         """
         # check if the code is called with apikey, vpcid, url, etc
@@ -76,7 +73,6 @@ class InitializeJson(object):
     def update_json_file(self):
         """
         The method to process the user input arguments, validate the arguments and fail
-
         :return: void
         """
         # check if the code is called with apikey, vpcid, url, etc
@@ -134,11 +130,10 @@ class InitializeJson(object):
 def main(**kwargs):
     """
     The method that is invoked, when run with CLI arguments
-
     :param kwargs:
     :return: void
     """
-    logfile = '/root/vnf-ha-cloud-failover-func/initialize_json.log'
+    logfile = '/tmp/vnf-ha-cloud-failover-func/initialize_json.log'
     logging.basicConfig(
         filename=logfile,
         format='%(asctime)s:%(levelname)s:%(message)s',
