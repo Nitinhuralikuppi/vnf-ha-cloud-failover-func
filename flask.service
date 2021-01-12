@@ -7,7 +7,7 @@ WantedBy=multi-user.target
 [Service]
 User=root
 PermissionsStartOnly=true
-ExecStart=whichpython3 /tmp/vnf-ha-cloud-failover-func/ha_fail_over_temp.py
+ExecStart=whichpython3 /tmp/vnf-ha-cloud-failover-func/ha_fail_over.py
 TimeoutSec=600
 Restart=on-failure
 RuntimeDirectoryMode=755
