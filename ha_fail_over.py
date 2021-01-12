@@ -32,7 +32,7 @@ class HAFailOver(object):
     HA_PAIR = "ha_pair"
     MGMT_IP = "mgmt_ip"
     EXT_IP = "ext_ip"
-    LOCATION_DEFAULT = "/root/vnf-ha-cloud-failover-func/"
+    LOCATION_DEFAULT = "/tmp/vnf-ha-cloud-failover-func/"
     CONFIGFILE = "config.json"
 
     apikey = None
@@ -59,7 +59,7 @@ class HAFailOver(object):
     
     def __init__(self):
         print("--------constructor---------")
-        logfile = '/root/vnf-ha-cloud-failover-func/fail_over.log'
+        logfile = '/tmp/vnf-ha-cloud-failover-func/fail_over.log'
         logging.basicConfig(filename=logfile, format='%(asctime)s:%(levelname)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
         loghandler = logging.handlers.TimedRotatingFileHandler(logfile,when="midnight")
         self.logger = logging.getLogger(__name__)
@@ -169,4 +169,3 @@ def update_custom_route():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000)
-    
