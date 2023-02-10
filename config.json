@@ -1,18 +1,18 @@
 {
     "install_location": "",
     "apikey": "",
-    "vpc_url": "https://us-south.iaas.cloud.ibm.com/v1",
-    "vpc_id": "",
-    "zone": "",
+    "vpc_url": "https://us-east.iaas.cloud.ibm.com/v1",
+    "vpc_id": "r014-e5afa064-2169-4614-a506-eea634a03e4e",
+    "zone": "us-east-1",
+    "routing_table": "hackathon-route-tbl",
     "ha_pair": [
         {
-            "mgmt_ip": "",
-            "ext_ip": ""
+            "mgmt_ip": "10.175.0.135",
+            "ext_ip": "10.175.0.71"
         },
         {
-            "mgmt_ip": "",
-            "ext_ip": ""
+            "mgmt_ip": "10.175.0.133",
+            "ext_ip": "10.175.0.69"
         }
     ]
 }
-
